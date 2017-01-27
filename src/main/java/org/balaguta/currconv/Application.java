@@ -3,17 +3,17 @@ package org.balaguta.currconv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
 @Controller
-public class Application {
+public class Application extends WebMvcConfigurerAdapter {
 
-    @GetMapping("/")
-    @ResponseBody
-    public String hello() {
-        return "Hello world!";
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("index");
     }
 
     public static void main(String[] args) throws Throwable {
