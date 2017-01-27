@@ -13,7 +13,7 @@ public class Application {
     @GetMapping("/")
     @ResponseBody
     public String hello() {
-        return "Hello!";
+        return "Hello world!";
     }
 
     public static void main(String[] args) throws Throwable {
