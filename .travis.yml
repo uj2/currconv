@@ -1,7 +1,21 @@
 language: java
+sudo: false
+install: true
 jdk:
 - oraclejdk8
 deploy:
   provider: heroku
   api_key:
     secure: hPFU6GRKqk/Yjjga5VUiuYUJff6saKI26zoQpWt2dV0Rkj8MWHbs2fBVnMvZkLXK+2WdFWmeC2Ahu6s6Dp7laWLYl6geZ2cp7w38TWUCVu64YLC1UeR1pFhwRFvYIQYxqYH5a7yHixBj+NEv5JWygRcYB8bIRF/+cU3mOyCEg0coEVgDydMlZM3QXHdlT+gRnU44+yGEfXB001NChod1t34XBVCeYts9gagksLsQUgIxmNelKJkfEt+9t1UxES25AHlVghdYoScqO7bmAuE043a2LiF+WoKChVIATyRG0k4N0dAAsVzbH96B7Arw1JXEEmeBk77BEuZCi8V2uxTHpRu4Q5F1UFLmw8qTIiEHC3u2uCcRnFQL6bDtEVFHK8xcjeDdFdxiArCAfUieCwZIYNkvpvkbX9le3W8YB7KEgWauf5/zbtsVtDUqw2bYzLB1bR0F97kbK1KSYsn7VN9PTdKcjD1S7BkJw38TUPGKwAHdcBQORJrTIdYM140+2hcE6uvX+t0TAlmoMFjpe0vooPX9/vPQ2NPey5tXQTupUwqmY1vt+OlgYxfjdNKMfwUdGro7lK92lmuuMurMwiQ7veQeSE7/e1IPFrQw41/O0K1tPYacXNaq0DycB3KzFDYGoxu0hJRW1A5s8QCuqb+U7Vs/9N5MzNxfzGWYf0MmGmE=
+addons:
+  sonarqube:
+    token:
+      secure: "dy+cY4Jod0/1LtuDgyFS+kYFiAX+WLVJna9htavbh83GBg4B/cYAeKZ+FDM2SnAQDvgn51wiOLWLlCUlQFCauNF2fTDukzDMBntxllWOdffRRK6rX/A/ClLKfSZKZcdp25CQ9WkCu9dXzp/DwWJ5ZpNAB5vfCDmkNEO3vf1z7W/rdJ/McEMW2OFa+WW5rVIA2S9GbW75WueyBXFvVj0XAopWlIfhLchl11wmbuBthtzEHcsbTtt67jA7VMj2HnN1DkZ+WgCexdgqlFIJe5hDCr5lFzeclu0LsZ5yk6L1jUWynXQVLNlBzSmhfgEvf7QfJ6KK196cc4IdcqOuW7IQEQeTb660ZqQyJMHHMso2cidyydwn0LuK3uqeuGX72xcUzIV8xBfQB55MMYeGxf5FT43mAlmuY9p0GnOIikJD3s7LIXDBDR9gmYmtsQOVZ+t1Vh+nMuVjQQALa+ZHshYHl1gjTVV28trX9UvvuEC1Rds1Q2KgN5jUiAIMua4epyLyZXm/R2GTT/ltEQZHYQH5ziUuwzMVzNCTLTxv+Kx68E4oct9JHXnGnTD2sg74vEUtwYnggf9BYuZC0P8vfV+d0FFGf6f6txJOts5IVvKMzUZC3LSabwgytenYUaBlYFhxaRYCYh19LT9tZZsaZtY+nlM2tbOVoeK8sDuIz8rSH6s="
+script:
+  - ./gradlew sonarqube
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+    - '$HOME/.gradle'
+    - '.gradle'
