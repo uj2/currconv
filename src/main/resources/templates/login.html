@@ -2,18 +2,67 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Currency Converter</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+          crossorigin="anonymous"/>
+
+
 </head>
 <body>
-<div th:if="${param.error}">
-    Invalid username and password.
+<div class="container">
+    <div class="page-header">
+        <h1>Currency Conventer</h1>
+    </div>
+    <div class="row">
+        <div th:if="${param.error}" class="alert alert-danger col-md-4" role="alert">
+            Invalid username and password.
+        </div>
+    </div>
+    <div class="row">
+        <div th:if="${param.logout}" class="alert alert-info col-md-4" role="alert">
+            You have been logged out.
+        </div>
+    </div>
+    <p>Please log in.</p>
+    <form th:action="@{/login}" method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="username"> E-Mail: </label>
+                    <input type="text" name="username" id="username" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="password"> Password: </label>
+                    <input type="password" name="password" id="password" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 text-right">
+                <input type="submit" value="Sign In" class="btn btn-primary"/>
+                <a href="/register?login" class="btn btn-default">Sign Up</a>
+            </div>
+        </div>
+    </form>
 </div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<form th:action="@{/login}" method="post">
-    <div><label for="username"> User Name: </label> <input type="text" name="username" id="username"/> </div>
-    <div><label for="password"> Password: </label> <input type="password" name="password" id="password"/> </div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 </body>
 </html>
