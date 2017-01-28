@@ -28,7 +28,7 @@
     </div>
 
     <div sec:authorize="isAuthenticated()">
-        <p>Welcome, <span sec:authentication="name">Andy Dwyer</span>!</p>
+        <p>Welcome, <span sec:authentication="principal.fullName">Andy Dwyer</span>!</p>
         <form th:action="@{/logout}" method="post">
             <div class="row">
                 <div class="col-md-12">
