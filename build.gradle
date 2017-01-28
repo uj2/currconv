@@ -8,6 +8,7 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'org.springframework.boot'
 
 jar {
@@ -33,4 +34,7 @@ dependencies {
     compileOnly "org.projectlombok:lombok:1.16.12"
     testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile "org.springframework.security:spring-security-test"
+    testCompile "org.spockframework:spock-core:1.1-groovy-2.4-rc-2"
+    testRuntime "org.spockframework:spock-spring:1.1-groovy-2.4-rc-2"
+
 }
