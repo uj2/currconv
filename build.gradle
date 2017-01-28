@@ -7,9 +7,14 @@ buildscript {
     }
 }
 
+plugins {
+    id "org.sonarqube" version "2.2"
+}
+
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'org.springframework.boot'
+apply plugin: "jacoco"
 
 jar {
     baseName = 'currconv-web'
