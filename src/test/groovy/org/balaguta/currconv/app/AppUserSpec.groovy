@@ -14,7 +14,7 @@ class AppUserSpec extends Specification {
         def user = new AppUser("joe@example.com", "", userEntity, Collections.emptyList())
 
         then:
-        user.firstName != "Joe"
+        user.firstName == "Joe"
         user.lastName == "Sample"
         user.fullName == "Joe Sample"
     }
