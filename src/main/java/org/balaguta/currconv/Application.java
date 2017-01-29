@@ -2,6 +2,7 @@ package org.balaguta.currconv;
 
 import org.balaguta.currconv.app.AppUserDetailsService;
 import org.balaguta.currconv.data.UserRepository;
+import org.balaguta.currconv.web.RegisterController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -46,7 +47,7 @@ public class Application extends WebMvcConfigurerAdapter {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("index");
         registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/convert").setViewName("convert");
+        registry.addViewController("/register").setViewName(RegisterController.VIEW_NAME);
     }
 
     @Configuration
@@ -71,7 +72,7 @@ public class Application extends WebMvcConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
-                        .antMatchers("/").permitAll()
+                        .antMatchers("/", "/register").permitAll()
                         .anyRequest().authenticated()
                     .and()
                     .formLogin()

@@ -14,6 +14,10 @@ public class AppUser extends org.springframework.security.core.userdetails.User 
         this.user = user;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public String getFirstName() {
         return user.getFirstName();
     }
@@ -25,4 +29,18 @@ public class AppUser extends org.springframework.security.core.userdetails.User 
     public String getFullName() {
         return user.getFirstName() + " " + user.getLastName();
     }
+
+    @Override
+    public boolean equals(Object rhs) {
+        if (rhs instanceof AppUser) {
+            return getUsername().equals(((AppUser) rhs).getUsername());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return getUsername().hashCode();
+    }
+
 }

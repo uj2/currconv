@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +13,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "USER")
 @Data
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 1;
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
