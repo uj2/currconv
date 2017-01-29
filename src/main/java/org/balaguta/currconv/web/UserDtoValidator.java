@@ -2,11 +2,12 @@ package org.balaguta.currconv.web;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.Objects;
 
 public class UserDtoValidator implements ConstraintValidator<ValidUserDto, UserDto> {
     @Override
     public void initialize(ValidUserDto constraintAnnotation) {
-
+        // nothing to do
     }
 
     @Override
@@ -14,7 +15,7 @@ public class UserDtoValidator implements ConstraintValidator<ValidUserDto, UserD
         if (object == null) {
             return true;
         }
-        if (!object.getPassword().equals(object.getRepeatPassword())) {
+        if (!Objects.equals(object.getPassword(), object.getRepeatPassword())) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate("{org.balaguta.currconv.User.repeatPassword.message}")
                     .addPropertyNode("repeatPassword")

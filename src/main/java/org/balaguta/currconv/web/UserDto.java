@@ -3,21 +3,21 @@ package org.balaguta.currconv.web;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Email;
-
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Data
 @ToString
 @ValidUserDto
 public class UserDto {
     @Email
+    @NotEmpty
     private String email;
-    @NotNull
+    @NotEmpty
     private String firstName;
-    @NotNull
+    @NotEmpty
     private String lastName;
-    @NotNull
+    @NotEmpty
     private String password;
-    @NotNull
+    @NotEmpty
     private String repeatPassword;
 }
