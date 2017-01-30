@@ -1,11 +1,13 @@
 package org.balaguta.currconv;
 
 import org.balaguta.currconv.app.AppUserDetailsService;
+import org.balaguta.currconv.app.CurrconvProperties;
 import org.balaguta.currconv.data.UserRepository;
 import org.balaguta.currconv.web.RegisterController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -15,12 +17,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.client.RestOperations;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
-@Controller
+@EnableConfigurationProperties(CurrconvProperties.class)
 public class Application extends WebMvcConfigurerAdapter {
 
     @Autowired
@@ -36,6 +39,11 @@ public class Application extends WebMvcConfigurerAdapter {
         return new AppUserDetailsService(userRepository);
     }
 
+    @Bean
+    public RestOperations restOperations() {
+        return new RestTemplate();
+    }
+
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService())
@@ -45,7 +53,6 @@ public class Application extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("index");
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/register").setViewName(RegisterController.VIEW_NAME);
     }
@@ -84,7 +91,6 @@ public class Application extends WebMvcConfigurerAdapter {
         }
 
     }
-
 
     public static void main(String[] args) throws Throwable {
         SpringApplication.run(Application.class, args);

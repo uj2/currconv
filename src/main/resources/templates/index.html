@@ -29,7 +29,56 @@
     </div>
 
     <div sec:authorize="isAuthenticated()">
-        <p>Welcome, <span sec:authentication="principal.fullName">Andy Dwyer</span>!</p>
+        <p>Welcome, <span sec:authentication="principal.fullName">Andy Dwyer</span>!  Here you
+            can convert between different currencies and see the history of your conversions.</p>
+
+
+        <form th:action="@{/}" action="#" method="post" th:object="${conversionDto}" class="form-inline">
+            <div class="row">
+                <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger col-md-4" role="alert">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+                    </ul>
+                </div>
+            </div>
+            <p>
+            <div class="form-group" name="amount" th:errorclass="has-error">
+                <label for="amount">Amount:</label>
+                <input type="text" name="amount" id="amount" class="form-control" th:field="*{amount}"/>
+            </div>
+            <div class="form-group" name="fromCurrency" th:errorclass="has-error">
+                <select name="currency" id="fromCurrency" class="form-control" th:field="*{fromCurrency}">
+                    <option th:each="curr : ${supportedCurrencies}"
+                            th:value="${curr}"
+                            th:text="${curr}">USD</option>
+                </select>
+            </div>
+            <div class="form-group" name="toCurrency" th:errorclass="has-error">
+                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                <select name="currency" id="toCurrency" class="form-control" th:field="*{toCurrency}">
+                    <option th:each="curr : ${supportedCurrencies}"
+                            th:value="${curr}"
+                            th:text="${curr}">CAD</option>
+                </select>
+            </div>
+            <input type="submit" value="Convert" class="btn btn-primary"/>
+            </p>
+        </form>
+
+        <div th:if="${targetAmount}"  class="row">
+            <div class="col-md-8">
+                <div class="jumbotron">
+                    <h2 ><span th:text="${#numbers.formatDecimal(sourceAmount.amount,0,2)}">13.25</span>
+                        <span th:text="${sourceAmount.currency}">USD</span>
+                        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                        <span th:text="${#numbers.formatDecimal(targetAmount.amount,0,2)}">18.25</span>
+                        <span th:text="${targetAmount.currency}">CAD</span>
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+
         <form th:action="@{/logout}" method="post">
             <div class="row">
                 <div class="col-md-12">

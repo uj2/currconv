@@ -23,7 +23,7 @@ public class RegisterController {
     private UserService userService;
 
     @GetMapping
-    public String registerForm(UserDto user) throws ServletException {
+    public String registerForm(UserDto user) {
         return VIEW_NAME;
     }
 
