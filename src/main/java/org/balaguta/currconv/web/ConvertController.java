@@ -1,8 +1,8 @@
 package org.balaguta.currconv.web;
 
-import org.balaguta.currconv.app.CurrconvProperties;
 import org.balaguta.currconv.data.Converter;
 import org.balaguta.currconv.data.entity.MoneyAmount;
+import org.balaguta.currconv.service.ConversionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,8 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -20,25 +18,27 @@ import java.util.List;
 public class ConvertController {
 
     private final Converter converter;
-    private final CurrconvProperties properties;
+    private final ConversionService conversionService;
 
     @Autowired
-    public ConvertController(Converter converter, CurrconvProperties properties) {
+    public ConvertController(Converter converter, ConversionService conversionService) {
         this.converter = converter;
-        this.properties = properties;
+        this.conversionService = conversionService;
     }
 
-    @ModelAttribute
-    public void populateCurrencies(ModelMap model) {
-        List<String> supportedCurrencies = new ArrayList<>(properties.getSupportedCurrencies());
-        Collections.sort(supportedCurrencies);
-        model.put("supportedCurrencies", supportedCurrencies);
-        if (!model.containsAttribute("fromCurrency")) {
-            String fromCurrency = supportedCurrencies.get(0);
-            String toCurrency = supportedCurrencies.get(1);
-            model.put("fromCurrency", fromCurrency);
-            model.put("toCurrency", toCurrency);
-        }
+    @ModelAttribute("supportedCurrencies")
+    public List<String> supportedCurrencies() {
+        return conversionService.getSupportedCurrencies();
+    }
+
+    @ModelAttribute("fromCurrency")
+    public String fromCurrency() {
+        return conversionService.getSupportedCurrencies().get(0);
+    }
+
+    @ModelAttribute("toCurrency")
+    public String toCurrency() {
+        return conversionService.getSupportedCurrencies().get(1);
     }
 
     @GetMapping
