@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 @Controller
 @RequestMapping("/")
@@ -51,16 +52,18 @@ public class ConvertController {
     }
 
     @PostMapping
-    public String convert(@Valid ConversionDto conversion, BindingResult bindingResult, ModelMap model) {
-        if (!bindingResult.hasErrors()) {
-            MoneyAmount sourceAmount = new MoneyAmount(conversion.getAmount(), conversion.getFromCurrency());
-            MoneyAmount targetAmount = converter.convert(sourceAmount, conversion.getToCurrency());
-            model.put("fromCurrency", conversion.getFromCurrency());
-            model.put("toCurrency", conversion.getToCurrency());
-            model.put("sourceAmount", sourceAmount);
-            model.put("targetAmount", targetAmount);
-        }
-        return "index";
+    public Callable<String> convert(@Valid ConversionDto conversion, BindingResult bindingResult, ModelMap model) {
+        return () -> {
+            if (!bindingResult.hasErrors()) {
+                MoneyAmount sourceAmount = new MoneyAmount(conversion.getAmount(), conversion.getFromCurrency());
+                MoneyAmount targetAmount = converter.convert(sourceAmount, conversion.getToCurrency());
+                model.put("fromCurrency", conversion.getFromCurrency());
+                model.put("toCurrency", conversion.getToCurrency());
+                model.put("sourceAmount", sourceAmount);
+                model.put("targetAmount", targetAmount);
+            }
+            return "index";
+        };
     }
 
 }
