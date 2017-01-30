@@ -79,6 +79,29 @@
         </div>
 
 
+        <p th:if="${#lists.isEmpty(conversionHistory)}">Your conversion history is empty.</p>
+
+
+        <div th:unless="${#lists.isEmpty(conversionHistory)}" class="row">
+            <div class="col-md-8">
+                <table class="table">
+                    <tr>
+                        <th>Date/Time</th>
+                        <th>Conversion</th>
+                    </tr>
+                    <tr th:each="conv : ${conversionHistory}">
+                        <td th:text="${#temporals.format(conv.timestamp, 'dd/MMM/yyyy HH:mm')}">2017/Jan/01 14:00</td>
+                        <td><span th:text="${#numbers.formatDecimal(conv.source.amount,0,2)}">215.34</span>
+                            <span th:text="${conv.source.currency}">USD</span>
+                            <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                            <span th:text="${#numbers.formatDecimal(conv.target.amount,0,2)}">314.45</span>
+                            <span th:text="${conv.target.currency}">CAD</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
         <form th:action="@{/logout}" method="post">
             <div class="row">
                 <div class="col-md-12">

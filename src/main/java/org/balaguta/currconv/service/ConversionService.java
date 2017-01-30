@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ConversionService {
     List<String> getSupportedCurrencies();
+    List<Conversion> getHistory();
     Conversion convert(MoneyAmount amount, String targetCurrency);
 }

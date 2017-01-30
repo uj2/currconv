@@ -25,6 +25,17 @@ public class ConvertController {
         this.conversionService = conversionService;
     }
 
+    @ModelAttribute
+    public void populateConversions(@RequestParam(required = false) String results, ModelMap model) {
+        List<Conversion> conversions = conversionService.getHistory();
+        if (results != null && !conversions.isEmpty()) {
+            model.put("conversionHistory", conversions.subList(1, conversions.size()));
+            model.put("conversion", conversions.get(0));
+        } else {
+            model.put("conversionHistory", conversions);
+        }
+    }
+
     @ModelAttribute("supportedCurrencies")
     public List<String> supportedCurrencies() {
         return conversionService.getSupportedCurrencies();
@@ -52,15 +63,16 @@ public class ConvertController {
     @PostMapping
     public Callable<String> convert(@Valid ConversionDto conversionDto, BindingResult bindingResult, ModelMap model) {
         return () -> {
-            if (!bindingResult.hasErrors()) {
-                MoneyAmount sourceAmount = new MoneyAmount(conversionDto.getAmount(), conversionDto.getFromCurrency());
-                Conversion conversion = conversionService.convert(sourceAmount, conversionDto.getToCurrency());
-
-                model.put("fromCurrency", conversionDto.getFromCurrency());
-                model.put("toCurrency", conversionDto.getToCurrency());
-                model.put("conversion", conversion);
+            if (bindingResult.hasErrors()) {
+                return "index";
             }
-            return "index";
+
+            MoneyAmount sourceAmount = new MoneyAmount(conversionDto.getAmount(), conversionDto.getFromCurrency());
+            conversionService.convert(sourceAmount, conversionDto.getToCurrency());
+
+            model.put("fromCurrency", conversionDto.getFromCurrency());
+            model.put("toCurrency", conversionDto.getToCurrency());
+            return "redirect:/?results";
         };
     }
 
