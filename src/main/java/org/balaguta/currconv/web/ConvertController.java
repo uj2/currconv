@@ -1,6 +1,6 @@
 package org.balaguta.currconv.web;
 
-import org.balaguta.currconv.data.Converter;
+import org.balaguta.currconv.data.entity.Conversion;
 import org.balaguta.currconv.data.entity.MoneyAmount;
 import org.balaguta.currconv.service.ConversionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +18,10 @@ import java.util.concurrent.Callable;
 @SessionAttributes({"fromCurrency", "toCurrency"})
 public class ConvertController {
 
-    private final Converter converter;
     private final ConversionService conversionService;
 
     @Autowired
-    public ConvertController(Converter converter, ConversionService conversionService) {
-        this.converter = converter;
+    public ConvertController(ConversionService conversionService) {
         this.conversionService = conversionService;
     }
 
@@ -52,15 +50,15 @@ public class ConvertController {
     }
 
     @PostMapping
-    public Callable<String> convert(@Valid ConversionDto conversion, BindingResult bindingResult, ModelMap model) {
+    public Callable<String> convert(@Valid ConversionDto conversionDto, BindingResult bindingResult, ModelMap model) {
         return () -> {
             if (!bindingResult.hasErrors()) {
-                MoneyAmount sourceAmount = new MoneyAmount(conversion.getAmount(), conversion.getFromCurrency());
-                MoneyAmount targetAmount = converter.convert(sourceAmount, conversion.getToCurrency());
-                model.put("fromCurrency", conversion.getFromCurrency());
-                model.put("toCurrency", conversion.getToCurrency());
-                model.put("sourceAmount", sourceAmount);
-                model.put("targetAmount", targetAmount);
+                MoneyAmount sourceAmount = new MoneyAmount(conversionDto.getAmount(), conversionDto.getFromCurrency());
+                Conversion conversion = conversionService.convert(sourceAmount, conversionDto.getToCurrency());
+
+                model.put("fromCurrency", conversionDto.getFromCurrency());
+                model.put("toCurrency", conversionDto.getToCurrency());
+                model.put("conversion", conversion);
             }
             return "index";
         };

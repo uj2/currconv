@@ -65,14 +65,14 @@
             </p>
         </form>
 
-        <div th:if="${targetAmount}"  class="row">
+        <div th:if="${conversion}"  class="row">
             <div class="col-md-8">
                 <div class="jumbotron">
-                    <h2 ><span th:text="${#numbers.formatDecimal(sourceAmount.amount,0,2)}">13.25</span>
-                        <span th:text="${sourceAmount.currency}">USD</span>
+                    <h2 ><span th:text="${#numbers.formatDecimal(conversion.source.amount,0,2)}">13.25</span>
+                        <span th:text="${conversion.source.currency}">USD</span>
                         <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-                        <span th:text="${#numbers.formatDecimal(targetAmount.amount,0,2)}">18.25</span>
-                        <span th:text="${targetAmount.currency}">CAD</span>
+                        <span th:text="${#numbers.formatDecimal(conversion.target.amount,0,2)}">18.25</span>
+                        <span th:text="${conversion.target.currency}">CAD</span>
                     </h2>
                 </div>
             </div>
