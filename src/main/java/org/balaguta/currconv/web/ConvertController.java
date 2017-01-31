@@ -23,7 +23,7 @@ public class ConvertController {
     public static final String ATTR_CONVERSION = "conversion";
     public static final String ATTR_FROM_CURRENCY = "fromCurrency";
     public static final String ATTR_TO_CURRENCY = "toCurrency";
-    public static final String ATTR_SUPPORTED_CURRENCIES = "toCurrency";
+    public static final String ATTR_SUPPORTED_CURRENCIES = "supportedCurrencies";
 
     private final ConversionService conversionService;
 
