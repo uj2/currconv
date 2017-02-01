@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.net.URI;
+import java.time.Duration;
 import java.util.List;
 
 @ConfigurationProperties(prefix = "currconv")
@@ -20,6 +21,7 @@ public class CurrconvProperties {
     private OpenExchangeRates openExchangeRates;
     @NotNull
     private UserProperties admin;
+    private Duration conversionCacheTtl;
 
     @Data
     public static class OpenExchangeRates {

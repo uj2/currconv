@@ -1,18 +1,19 @@
 package org.balaguta.currconv;
 
 import org.balaguta.currconv.app.AppUserDetailsService;
-import org.balaguta.currconv.app.ApplicationInitializer;
 import org.balaguta.currconv.app.CurrconvProperties;
-import org.balaguta.currconv.data.RoleRepository;
 import org.balaguta.currconv.data.UserRepository;
 import org.balaguta.currconv.web.RegisterController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,14 +27,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @SpringBootApplication
 @EnableConfigurationProperties(CurrconvProperties.class)
+@EnableCaching
 public class Application extends WebMvcConfigurerAdapter {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private CurrconvProperties properties;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -51,8 +49,8 @@ public class Application extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public ApplicationInitializer applicationInitializer() {
-        return new ApplicationInitializer(userRepository, roleRepository, properties);
+    public ConversionService conversionService() {
+        return new DefaultFormattingConversionService();
     }
 
     @Autowired
