@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +26,9 @@ public class User implements Serializable {
     private String password;
     private String firstName;
     private String lastName;
+    private LocalDate birthDay;
+    @Embedded
+    private Address address;
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Role> roles = new HashSet<>();
 }

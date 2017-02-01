@@ -80,6 +80,73 @@
         </div>
         <div class="row">
             <div class="col-md-4">
+                <div class="form-group" name="birthday" th:errorclass="has-error">
+                    <label for="address.line1"> Birth Date: </label>
+                    <input type="date" name="birthday" id="birthday" th:field="*{birthday}"
+                           class="form-control"/>
+                    <span class="help-block" th:if="${#fields.hasErrors('birthday')}"
+                          th:errors="*{birthday}">Birth Date Error</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group" name="address.line1" th:errorclass="has-error">
+                    <label for="address.line1"> Address: </label>
+                    <input type="text" placeholder="Line 1" name="address.line1" id="address.line1" th:field="*{address.line1}"
+                           class="form-control"/>
+                    <span class="help-block" th:if="${#fields.hasErrors('address.line1')}"
+                          th:errors="*{repeatPassword}">Address Error</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group" name="address.line2" th:errorclass="has-error">
+                    <input type="text" placeholder="Line 2" name="address.line2" id="address.line2" th:field="*{address.line2}"
+                           class="form-control"/>
+                    <span class="help-block" th:if="${#fields.hasErrors('address.line2')}"
+                          th:errors="*{repeatPassword}">Address Error</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group" name="address.zip" th:errorclass="has-error">
+                    <label for="address.zip"> Zip Code: </label>
+                    <input type="text" name="address.zip" id="address.zip" th:field="*{address.zip}"
+                           class="form-control"/>
+                    <span class="help-block" th:if="${#fields.hasErrors('address.zip')}"
+                          th:errors="*{address.zip}">Address Error</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group" name="address.city" th:errorclass="has-error">
+                    <label for="address.city"> City: </label>
+                    <input type="text" name="address.city" id="address.city" th:field="*{address.city}"
+                           class="form-control"/>
+                    <span class="help-block" th:if="${#fields.hasErrors('address.city')}"
+                          th:errors="*{address.city}">Address Error</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="address.city"> Country: </label>
+
+                    <select name="address.country" id="address.country" class="form-control" th:field="*{address.country}">
+                        <option th:each="curr : ${countries}"
+                                th:value="${curr.id}" value="1"
+                                th:text="${curr.name}">Poland</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
                 <input type="submit" value="Register" class="btn btn-primary"/>
                 <input th:if="${param.login}" type="button" value="Cancel" class="btn btn-default"
                        onclick="javascript:window.location = '/login'"/>
