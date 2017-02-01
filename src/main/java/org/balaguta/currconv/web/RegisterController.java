@@ -3,6 +3,7 @@ package org.balaguta.currconv.web;
 import org.balaguta.currconv.data.entity.Country;
 import org.balaguta.currconv.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -48,7 +49,14 @@ public class RegisterController {
         }
 
         userService.registerUser(userInfo);
+
+        // preauthenticate newly registered user
+        if (request.getUserPrincipal() != null) {
+            // for some reason, request.logout() doesn't work correctly
+            SecurityContextHolder.clearContext();
+        }
         request.login(userInfo.getEmail(), userInfo.getPassword());
+
         return "redirect:/";
     }
 
