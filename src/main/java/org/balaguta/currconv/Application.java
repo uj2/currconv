@@ -1,7 +1,9 @@
 package org.balaguta.currconv;
 
 import org.balaguta.currconv.app.AppUserDetailsService;
+import org.balaguta.currconv.app.ApplicationInitializer;
 import org.balaguta.currconv.app.CurrconvProperties;
+import org.balaguta.currconv.data.RoleRepository;
 import org.balaguta.currconv.data.UserRepository;
 import org.balaguta.currconv.web.RegisterController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,10 @@ public class Application extends WebMvcConfigurerAdapter {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private CurrconvProperties properties;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -44,12 +50,16 @@ public class Application extends WebMvcConfigurerAdapter {
         return new RestTemplate();
     }
 
+    @Bean
+    public ApplicationInitializer applicationInitializer() {
+        return new ApplicationInitializer(userRepository, roleRepository, properties);
+    }
+
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService())
                 .passwordEncoder(passwordEncoder());
     }
-
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -67,7 +77,7 @@ public class Application extends WebMvcConfigurerAdapter {
                     .headers().disable()
                     .authorizeRequests()
                         .anyRequest()
-                        .permitAll();
+                        .hasAuthority("admin:h2-console");
         }
 
     }

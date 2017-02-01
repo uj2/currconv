@@ -2,6 +2,7 @@ package org.balaguta.currconv.app;
 
 import org.balaguta.currconv.data.UserRepository;
 import org.balaguta.currconv.data.entity.Permission;
+import org.balaguta.currconv.data.entity.Role;
 import org.balaguta.currconv.data.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class AppUserDetailsService implements UserDetailsService {
@@ -32,10 +34,15 @@ public class AppUserDetailsService implements UserDetailsService {
     }
 
     private Collection<GrantedAuthority> getAuthorities(User user) {
-        return user.getRoles().stream()
+        List<GrantedAuthority> authorities = user.getRoles().stream()
                 .flatMap(r -> r.getPermissions().stream())
                 .map(Permission::getName)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+        authorities.addAll(user.getRoles().stream()
+                .map(Role::getName)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList()));
+        return authorities;
     }
 }

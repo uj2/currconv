@@ -1,6 +1,7 @@
 package org.balaguta.currconv.app;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -17,6 +18,8 @@ public class CurrconvProperties {
     private List<String> supportedCurrencies;
     @NotNull
     private OpenExchangeRates openExchangeRates;
+    @NotNull
+    private UserProperties admin;
 
     @Data
     public static class OpenExchangeRates {
@@ -24,5 +27,14 @@ public class CurrconvProperties {
         private URI url;
         @NotNull
         private String appId;
+    }
+
+    @Data
+    public static class UserProperties {
+        @Email
+        @NotNull
+        private String email;
+        @NotNull
+        private String password;
     }
 }
