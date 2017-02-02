@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Data
 @ToString
-public class OpenExchangeRatesLatest {
+public class OpenExchangeRates {
     private long timestamp;
     private String base;
     private Map<String, BigDecimal> rates;

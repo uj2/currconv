@@ -14,6 +14,7 @@ import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,10 +60,21 @@ public class ConversionServiceImpl implements ConversionService {
                 "[amount.currency] not supported");
         Assert.isTrue(supportedCurrencies.contains(targetCurrency),
                 "[targetCurrency] not supported");
+        return persistConversion(amount, convert(ratesSource.getLatestRates(), amount, targetCurrency), LocalDate.now());
+    }
+
+    @Override
+    public Conversion convert(MoneyAmount amount, String targetCurrency, LocalDate ratesFrom) {
+        return persistConversion(amount, convert(ratesSource.getHistoricalRates(ratesFrom), amount, targetCurrency),
+                ratesFrom);
+    }
+
+    private Conversion persistConversion(MoneyAmount source, MoneyAmount target, LocalDate ratesFrom) {
         Conversion conversion = new Conversion();
         conversion.setTimestamp(LocalDateTime.now());
-        conversion.setSource(amount);
-        conversion.setTarget(convert(ratesSource.getLatestRates(), amount, targetCurrency));
+        conversion.setSource(source);
+        conversion.setTarget(target);
+        conversion.setRatesFrom(ratesFrom);
         conversion.setUser(userService.getCurrentUser());
         return conversionRepository.save(conversion);
     }

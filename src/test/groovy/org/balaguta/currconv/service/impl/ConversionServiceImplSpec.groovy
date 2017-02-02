@@ -26,7 +26,8 @@ class ConversionServiceImplSpec extends Specification {
             supportedCurrencies = ['EUR', 'USD', 'GBP', 'NZD', 'AUD', 'PLN', 'UAH']
             openExchangeRates = new OpenExchangeRates()
             openExchangeRates.with {
-                url = new URI("https://openexchangerates.org/api/latest.json")
+                latestUrl = new URI("https://openexchangerates.org/api/latest.json")
+                historicalUrl = "https://openexchangerates.org/api/historical/{ratesFrom}.json"
                 appId = "12345"
             }
         }

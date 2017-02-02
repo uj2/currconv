@@ -2,7 +2,7 @@ package org.balaguta.currconv.data.impl;
 
 import org.balaguta.currconv.app.CurrconvProperties;
 import org.balaguta.currconv.data.ExchangeRatesSource;
-import org.balaguta.currconv.data.entity.OpenExchangeRatesLatest;
+import org.balaguta.currconv.data.entity.OpenExchangeRates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -12,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigDecimal;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.Map;
 
 @Repository
@@ -33,11 +34,22 @@ public class OpenExchangeRatesSource implements ExchangeRatesSource {
     @Override
     @Cacheable("conversions")
     public Map<String, BigDecimal> getLatestRates() {
-        URI uri = UriComponentsBuilder.fromUri(properties.getOpenExchangeRates().getUrl())
+        URI uri = UriComponentsBuilder.fromUri(properties.getOpenExchangeRates().getLatestUrl())
                 .queryParam(APP_ID_PARAM, properties.getOpenExchangeRates().getAppId())
                 .build()
                 .toUri();
-        OpenExchangeRatesLatest rates = restOperations.getForObject(uri, OpenExchangeRatesLatest.class);
+        OpenExchangeRates rates = restOperations.getForObject(uri, OpenExchangeRates.class);
+        return rates.getRates();
+    }
+
+    @Override
+    @Cacheable("conversions")
+    public Map<String, BigDecimal> getHistoricalRates(LocalDate ratesFrom) {
+        URI uri = UriComponentsBuilder.fromUriString(properties.getOpenExchangeRates().getHistoricalUrl())
+                .queryParam(APP_ID_PARAM, properties.getOpenExchangeRates().getAppId())
+                .buildAndExpand(ratesFrom)
+                .toUri();
+        OpenExchangeRates rates = restOperations.getForObject(uri, OpenExchangeRates.class);
         return rates.getRates();
     }
 }

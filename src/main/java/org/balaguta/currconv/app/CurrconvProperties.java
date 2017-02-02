@@ -21,14 +21,16 @@ public class CurrconvProperties {
     private OpenExchangeRates openExchangeRates;
     @NotNull
     private UserProperties admin;
-    private Duration conversionCacheTtl;
 
     @Data
     public static class OpenExchangeRates {
         @NotNull
-        private URI url;
+        private URI latestUrl;
+        @NotNull
+        private String historicalUrl;
         @NotNull
         private String appId;
+        private Duration cacheTtl;
     }
 
     @Data

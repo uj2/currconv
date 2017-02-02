@@ -3,6 +3,7 @@ package org.balaguta.currconv.data.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -30,4 +31,6 @@ public class Conversion {
             @AttributeOverride(name = "currency", column = @Column(name = "TARGET_CURRENCY"))
     })
     private MoneyAmount target;
+
+    private LocalDate ratesFrom;
 }

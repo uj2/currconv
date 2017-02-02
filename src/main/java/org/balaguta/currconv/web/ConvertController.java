@@ -11,18 +11,21 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.Callable;
 
 @Controller
 @RequestMapping("/")
-@SessionAttributes({ConvertController.ATTR_FROM_CURRENCY, ConvertController.ATTR_TO_CURRENCY})
+@SessionAttributes({ConvertController.ATTR_FROM_CURRENCY, ConvertController.ATTR_TO_CURRENCY,
+        ConvertController.ATTR_RATES_FROM})
 public class ConvertController {
 
     public static final String ATTR_CONVERSION_HISTORY = "conversionHistory";
     public static final String ATTR_CONVERSION = "conversion";
     public static final String ATTR_FROM_CURRENCY = "fromCurrency";
     public static final String ATTR_TO_CURRENCY = "toCurrency";
+    public static final String ATTR_RATES_FROM = "ratesFrom";
     public static final String ATTR_SUPPORTED_CURRENCIES = "supportedCurrencies";
 
     private final ConversionService conversionService;
@@ -52,27 +55,34 @@ public class ConvertController {
         }
     }
 
-    @ModelAttribute("supportedCurrencies")
+    @ModelAttribute(ATTR_SUPPORTED_CURRENCIES)
     public List<String> supportedCurrencies() {
         return conversionService.getSupportedCurrencies();
     }
 
-    @ModelAttribute("fromCurrency")
+    @ModelAttribute(ATTR_FROM_CURRENCY)
     public String fromCurrency(@ModelAttribute(ATTR_SUPPORTED_CURRENCIES) List<String> supportedCurrencies) {
         return supportedCurrencies.get(0);
     }
 
-    @ModelAttribute("toCurrency")
+    @ModelAttribute(ATTR_TO_CURRENCY)
     public String toCurrency(@ModelAttribute(ATTR_SUPPORTED_CURRENCIES) List<String> supportedCurrencies) {
         return supportedCurrencies.get(1);
+    }
+
+    @ModelAttribute(ATTR_RATES_FROM)
+    public LocalDate ratesFrom() {
+        return LocalDate.now();
     }
 
     @GetMapping
     public String convertForm(ConversionDto conversion,
                               @ModelAttribute(ATTR_FROM_CURRENCY) String fromCurrency,
-                              @ModelAttribute(ATTR_TO_CURRENCY) String toCurrency) {
+                              @ModelAttribute(ATTR_TO_CURRENCY) String toCurrency,
+                              @ModelAttribute(ATTR_RATES_FROM) LocalDate ratesFrom) {
         conversion.setFromCurrency(fromCurrency);
         conversion.setToCurrency(toCurrency);
+        conversion.setRatesFrom(ratesFrom);
         return "index";
     }
 
@@ -84,10 +94,11 @@ public class ConvertController {
             }
 
             MoneyAmount sourceAmount = new MoneyAmount(conversionDto.getAmount(), conversionDto.getFromCurrency());
-            conversionService.convert(sourceAmount, conversionDto.getToCurrency());
+            conversionService.convert(sourceAmount, conversionDto.getToCurrency(), conversionDto.getRatesFrom());
 
             model.put(ATTR_FROM_CURRENCY, conversionDto.getFromCurrency());
             model.put(ATTR_TO_CURRENCY, conversionDto.getToCurrency());
+            model.put(ATTR_RATES_FROM, conversionDto.getRatesFrom());
             return "redirect:/?results";
         };
     }

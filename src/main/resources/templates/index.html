@@ -16,6 +16,10 @@
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
           crossorigin="anonymous"/>
 
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css"
+          integrity="sha256-8qbGU+6CyzZndATqt8JYzpha71ptNqBkpagFVI+t6oI=" crossorigin="anonymous" />
+
 </head>
 <body>
 
@@ -61,6 +65,15 @@
                             th:text="${curr}">CAD</option>
                 </select>
             </div>
+            <div class="form-group" name="ratesFrom" th:errorclass="has-error">
+                <label for="ratesFrom">Rates From:</label>
+                <div class="input-group date" data-provide="datepicker" data-date-format="dd/M/yyyy">
+                    <input type="text" name="ratesFrom" id="ratesFrom" class="form-control" th:field="*{ratesFrom}"/>
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
+            </div>
             <input type="submit" value="Convert" class="btn btn-primary"/>
             </p>
         </form>
@@ -88,6 +101,7 @@
                     <tr>
                         <th>Date/Time</th>
                         <th>Conversion</th>
+                        <th>Rates From</th>
                     </tr>
                     <tr th:each="conv : ${conversionHistory}">
                         <td th:text="${#temporals.format(conv.timestamp, 'dd/MMM/yyyy HH:mm')}">2017/Jan/01 14:00</td>
@@ -97,6 +111,7 @@
                             <span th:text="${#numbers.formatDecimal(conv.target.amount,0,2)}">314.45</span>
                             <span th:text="${conv.target.currency}">CAD</span>
                         </td>
+                        <td th:text="${#temporals.format(conv.ratesFrom, 'dd/MMM/yyyy')}">2017/Jan/01</td>
                     </tr>
                 </table>
             </div>
@@ -121,5 +136,11 @@
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"
+        integrity="sha256-zXNrZH6Aqd2T5QyZumro0VuxbhdKhOiQhxtw6YxgjUM=" crossorigin="anonymous"></script>
+
+<script>
+    $('#ratesFrom').datepicker();
+</script>
 </body>
 </html>

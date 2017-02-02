@@ -24,9 +24,9 @@ public class ConversionCache implements JCacheManagerCustomizer {
     public void customize(CacheManager cacheManager) {
 
         MutableConfiguration<Object, Object> configuration = new MutableConfiguration<>();
-        if (properties.getConversionCacheTtl() != null) {
+        if (properties.getOpenExchangeRates().getCacheTtl() != null) {
             configuration.setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(
-                    new Duration(TimeUnit.SECONDS, properties.getConversionCacheTtl().getSeconds())));
+                    new Duration(TimeUnit.SECONDS, properties.getOpenExchangeRates().getCacheTtl().getSeconds())));
         }
         configuration.setManagementEnabled(true);
         configuration.setStatisticsEnabled(true);
