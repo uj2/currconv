@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -25,9 +26,11 @@ public class UserDto {
     @NotEmpty
     private String repeatPassword;
     @Birthday
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @NotNull
+    @DateTimeFormat(pattern = "dd/MMM/yyyy")
     private LocalDate birthday;
     @NotNull
+    @Valid
     private Address address;
 
     @Data
