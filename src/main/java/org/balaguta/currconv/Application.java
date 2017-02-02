@@ -30,19 +30,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableCaching
 public class Application extends WebMvcConfigurerAdapter {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new AppUserDetailsService(userRepository);
-    }
-
     @Bean
     public RestOperations restOperations() {
         return new RestTemplate();
@@ -53,16 +40,33 @@ public class Application extends WebMvcConfigurerAdapter {
         return new DefaultFormattingConversionService();
     }
 
-    @Autowired
-    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService())
-                .passwordEncoder(passwordEncoder());
-    }
-
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/register").setViewName(RegisterController.VIEW_NAME);
+    }
+
+    @Configuration
+    public static class SecurityConfig {
+
+        @Autowired
+        private UserRepository userRepository;
+
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+            return new BCryptPasswordEncoder();
+        }
+
+        @Bean
+        public UserDetailsService userDetailsService() {
+            return new AppUserDetailsService(userRepository);
+        }
+
+        @Autowired
+        public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+            auth.userDetailsService(userDetailsService())
+                    .passwordEncoder(passwordEncoder());
+        }
     }
 
     @Configuration
