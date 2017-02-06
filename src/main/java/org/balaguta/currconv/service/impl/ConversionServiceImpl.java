@@ -16,10 +16,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ConversionServiceImpl implements ConversionService {
@@ -34,12 +31,16 @@ public class ConversionServiceImpl implements ConversionService {
                                  ConversionRepository conversionRepository,
                                  UserService userService,
                                  CurrconvProperties properties) {
-        List<String> supportedCurrencies = new ArrayList<>(properties.getSupportedCurrencies());
-        Collections.sort(supportedCurrencies);
-        this.supportedCurrencies = Collections.unmodifiableList(supportedCurrencies);
+        this.supportedCurrencies = sorted(properties.getSupportedCurrencies());
         this.ratesSource = ratesSource;
         this.conversionRepository = conversionRepository;
         this.userService = userService;
+    }
+
+    private List<String> sorted(Collection<String> input) {
+        List<String> output = new ArrayList<>(input);
+        Collections.sort(output);
+        return Collections.unmodifiableList(output);
     }
 
     @Override
@@ -86,5 +87,4 @@ public class ConversionServiceImpl implements ConversionService {
                 .divide(rates.get(amount.getCurrency()), RoundingMode.HALF_UP);
         return new MoneyAmount(value, targetCurrency);
     }
-
 }

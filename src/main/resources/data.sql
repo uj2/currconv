@@ -11,8 +11,9 @@ INSERT INTO role_permissions(role_id, permissions_id) VALUES (
     (SELECT id FROM permission WHERE name = 'admin:h2-console')
 );
 
-INSERT INTO user_roles(user_id, roles_id) VALUES ((SELECT id FROM USER WHERE email='joe@example.com'),
-(SELECT id FROM role WHERE name = 'ROLE_USER'));
+INSERT INTO user_roles(user_id, roles_id) VALUES (
+    (SELECT id FROM USER WHERE email='joe@example.com'),
+    (SELECT id FROM role WHERE name = 'ROLE_USER'));
 
 
 INSERT INTO country(name) VALUES ('Afghanistan');

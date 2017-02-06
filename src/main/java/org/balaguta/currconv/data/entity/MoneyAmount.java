@@ -17,6 +17,7 @@ public class MoneyAmount implements Serializable {
     private final BigDecimal amount;
     private final String currency;
 
+    @Override
     public String toString() {
         return amount + " " + currency;
     }

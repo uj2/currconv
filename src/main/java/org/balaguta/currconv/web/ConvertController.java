@@ -41,11 +41,11 @@ public class ConvertController {
                            Principal principal,
                            ModelMap model) {
         if (principal != null) {
-            setupAuthenticatedModel(results, conversion, model);
+            setupAuthenticatedModel(results, model);
         }
     }
 
-    private void setupAuthenticatedModel(String results, ConversionDto conversion, ModelMap model) {
+    private void setupAuthenticatedModel(String results, ModelMap model) {
         List<Conversion> history = conversionService.getHistory();
         if (history.isEmpty() || results == null) {
             model.put(ATTR_CONVERSION_HISTORY, history);
