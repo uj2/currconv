@@ -11,12 +11,13 @@ import javax.cache.expiry.Duration;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class ConversionCache implements JCacheManagerCustomizer {
+public class RatesCache implements JCacheManagerCustomizer {
 
+    public static final String CACHE_NAME = "rates";
     private final CurrconvProperties properties;
 
     @Autowired
-    public ConversionCache(CurrconvProperties properties) {
+    public RatesCache(CurrconvProperties properties) {
         this.properties = properties;
     }
 
@@ -31,6 +32,6 @@ public class ConversionCache implements JCacheManagerCustomizer {
         configuration.setManagementEnabled(true);
         configuration.setStatisticsEnabled(true);
 
-        cacheManager.createCache("conversions", configuration);
+        cacheManager.createCache(CACHE_NAME, configuration);
     }
 }

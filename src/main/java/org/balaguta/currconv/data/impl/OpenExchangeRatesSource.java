@@ -1,6 +1,7 @@
 package org.balaguta.currconv.data.impl;
 
 import org.balaguta.currconv.app.CurrconvProperties;
+import org.balaguta.currconv.app.RatesCache;
 import org.balaguta.currconv.data.ExchangeRatesSource;
 import org.balaguta.currconv.data.entity.OpenExchangeRates;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class OpenExchangeRatesSource implements ExchangeRatesSource {
     }
 
     @Override
-    @Cacheable("conversions")
+    @Cacheable(RatesCache.CACHE_NAME)
     public Map<String, BigDecimal> getLatestRates() {
         URI uri = UriComponentsBuilder.fromUri(properties.getOpenExchangeRates().getLatestUrl())
                 .queryParam(APP_ID_PARAM, properties.getOpenExchangeRates().getAppId())
@@ -43,7 +44,7 @@ public class OpenExchangeRatesSource implements ExchangeRatesSource {
     }
 
     @Override
-    @Cacheable("conversions")
+    @Cacheable(RatesCache.CACHE_NAME)
     public Map<String, BigDecimal> getHistoricalRates(LocalDate ratesFrom) {
         URI uri = UriComponentsBuilder.fromUriString(properties.getOpenExchangeRates().getHistoricalUrl())
                 .queryParam(APP_ID_PARAM, properties.getOpenExchangeRates().getAppId())
