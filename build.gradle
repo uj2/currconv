@@ -50,5 +50,13 @@ dependencies {
     testCompile "org.springframework.security:spring-security-test"
     testCompile "org.spockframework:spock-core:1.1-groovy-2.4-rc-2"
     testRuntime "org.spockframework:spock-spring:1.1-groovy-2.4-rc-2"
+}
 
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        xml.destination "${buildDir}/reports/jacoco/report.xml"
+        html.enabled false
+        csv.enabled false
+    }
 }
