@@ -48,14 +48,13 @@ dependencies {
     compile "javax.cache:cache-api"
     compile 'org.apache.commons:commons-lang3:3.5'
     compileOnly "org.projectlombok:lombok:1.16.12"
-    //compile 'ch.qos.logback:logback-core:1.1.3'
     testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile "org.springframework.security:spring-security-test"
     testCompile "org.spockframework:spock-core:1.1-groovy-2.4-rc-2"
     testRuntime "org.spockframework:spock-spring:1.1-groovy-2.4-rc-2"
     testCompile 'org.seleniumhq.selenium:selenium-java:3.0.1'
     testCompile 'org.seleniumhq.selenium:htmlunit-driver:'
-    //testCompile 'org.seleniumhq.selenium:selenium-support:3.0.1'
+    testCompile 'com.saucelabs:sauce_junit:2.1.21'
 }
 
 jacocoTestReport {
