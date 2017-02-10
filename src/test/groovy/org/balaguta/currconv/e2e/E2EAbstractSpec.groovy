@@ -28,6 +28,9 @@ abstract class E2EAbstractSpec extends Specification {
     String sauceAccessKey
     @Value('${CI:#{false}}')
     boolean continuousIntegration
+    @Value('${travis.job-number:#{null}')
+    String travisJobNumber
+
     SauceOnDemandAuthentication sauceAuthentication = new SauceOnDemandAuthentication()
 
     def setup() {
@@ -39,6 +42,9 @@ abstract class E2EAbstractSpec extends Specification {
             driver = new HtmlUnitDriver()
         } else {
             DesiredCapabilities caps = DesiredCapabilities.chrome();
+            if (travisJobNumber) {
+                caps['tunnel-identifier'] = travisJobNumber
+            }
             def hubUrl = new URL("http://$sauceUsername:$sauceAccessKey@localhost:4445/wd/hub")
             driver = new RemoteWebDriver(hubUrl, caps)
         }
