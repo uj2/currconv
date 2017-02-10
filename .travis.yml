@@ -16,7 +16,7 @@ addons:
     access_key:
       secure: XaQNXxh3zmN7X6N+GV7BSGfEHrUpogrF9cYI9tgkWYcrkOuem+O8tD7sppGbnllhPu10poAYbAnS5QGYkNJ0YZxV4f7lbErBPaR+HJZPp/VSDynOXjBZFWXERnibsZrbH36BGqOxP1gDl2nBkNqKaK6CgZIV5s88itvvHLC4T2Azz5Kok4NA11h5urL06wBasFt8uS1embXw7FZqKrpq5Hat3K6zZb0W6jw+jfiFbRXVu88Ga6o01ojsHppjDCzNWnoubW72JHFWxByGrkxJITSktvY2FwlP2NmkEJM1NPVqPxTyFfhO7hLa6rJ3THQsEMHB4LwS3oaiSGW7XZoHN9nKLm2WZRY+Zpi19Dxeb/LdEf7aHEAJkqAdGjDNhVBF2ocjr2078titx87neM0lLYJb1JxxG5/WbeYUuWqXlvDLHOZQjlLd4JQyx5pTSgLf7wA8fqS+EeeMwJwtYvYKq3cVbrh+HJoJelzc+yu1KWM47rW3lGW11eGw25HsTLdkld9MSyeGPLsMKfFqaX82gIvRjtqqIthrrC5aplHv6aZd96ebcuv0mWqNOoStVzXJwkwTKk49IP//kDWYtpg0TENI4fs1STw+nHshPSW+9VMHkAuZvckoITDNsdgCUdw2qGyT1iQ/HN5AOiQMzWivKEdl/vjvDEqmwqFcyP2Vpy0=
 script:
-- "./gradlew jacocoTestReport sonarqube"
+- "./gradlew jacocoTestReport sonarqube --info"
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 cache:
