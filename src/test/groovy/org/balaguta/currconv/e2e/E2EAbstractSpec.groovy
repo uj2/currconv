@@ -28,7 +28,7 @@ abstract class E2EAbstractSpec extends Specification {
     String sauceAccessKey
     @Value('${CI:#{false}}')
     boolean continuousIntegration
-    @Value('${travis.job-number:#{null}')
+    @Value('${travis.job-number:#{null}}')
     String travisJobNumber
 
     SauceOnDemandAuthentication sauceAuthentication = new SauceOnDemandAuthentication()
