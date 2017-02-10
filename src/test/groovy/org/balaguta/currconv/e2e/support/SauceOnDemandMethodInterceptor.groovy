@@ -1,6 +1,7 @@
 package org.balaguta.currconv.e2e.support
 
 import com.saucelabs.common.SauceOnDemandAuthentication
+import com.saucelabs.common.Utils
 import com.saucelabs.saucerest.SauceREST
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.remote.RemoteWebDriver
@@ -27,10 +28,12 @@ class SauceOnDemandMethodInterceptor extends AbstractMethodInterceptor {
             def sessionId = driver.sessionId.toString()
             def name = "${invocation.feature.name} (${invocation.spec.name})".toString()
             SauceREST rest = new SauceREST(authentication.username, authentication.accessKey);
-            rest.updateJobInfo(sessionId, [
+            def payload = [
                     'name': name,
                     'passed': success
-            ])
+            ]
+            Utils.addBuildNumberToUpdate(payload)
+            rest.updateJobInfo(sessionId, payload)
         }
 
         try {

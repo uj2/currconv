@@ -26,8 +26,6 @@ abstract class E2EAbstractSpec extends Specification {
     String sauceUsername
     @Value('${sauce.access-key}')
     String sauceAccessKey
-    @Value('${travis.build-number:#{null}}')
-    String travisBuildNumber
     @Value('${CI:#{false}}')
     boolean continuousIntegration
     SauceOnDemandAuthentication sauceAuthentication = new SauceOnDemandAuthentication()
@@ -41,9 +39,6 @@ abstract class E2EAbstractSpec extends Specification {
             driver = new HtmlUnitDriver()
         } else {
             DesiredCapabilities caps = DesiredCapabilities.chrome();
-            if (travisBuildNumber) {
-                caps["build"] = travisBuildNumber
-            }
             def hubUrl = new URL("http://$sauceUsername:$sauceAccessKey@localhost:4445/wd/hub")
             driver = new RemoteWebDriver(hubUrl, caps)
         }
