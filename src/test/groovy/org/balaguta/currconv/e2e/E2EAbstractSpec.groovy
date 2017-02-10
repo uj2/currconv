@@ -43,7 +43,7 @@ abstract class E2EAbstractSpec extends Specification {
         } else {
             DesiredCapabilities caps = DesiredCapabilities.chrome();
             if (travisJobNumber) {
-                caps['tunnel-identifier'] = travisJobNumber
+                caps.setCapability('tunnel-identifier', travisJobNumber)
             }
             def hubUrl = new URL("http://$sauceUsername:$sauceAccessKey@localhost:4445/wd/hub")
             driver = new RemoteWebDriver(hubUrl, caps)
