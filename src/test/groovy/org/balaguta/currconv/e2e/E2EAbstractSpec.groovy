@@ -22,9 +22,9 @@ abstract class E2EAbstractSpec extends Specification {
     @LocalServerPort int port
     URL baseUrl
 
-    @Value('${sauce.username}')
+    @Value('${sauce.username:#{null}}')
     String sauceUsername
-    @Value('${sauce.access-key}')
+    @Value('${sauce.access-key:#{null}}')
     String sauceAccessKey
     @Value('${CI:#{false}}')
     boolean continuousIntegration
@@ -52,14 +52,15 @@ abstract class E2EAbstractSpec extends Specification {
     }
 
     def cleanup() {
-        driver.quit()
+        driver?.quit()
     }
 
     def exists(WebElement element) {
         try {
             element.displayed
-        } catch (NoSuchElementException e) {
-            throw new AssertionError("$element does not exist")
+            true
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            false
         }
     }
 }
